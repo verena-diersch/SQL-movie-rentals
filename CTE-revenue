@@ -1,0 +1,25 @@
+Here is a SQL query with a common table expression
+
+-- Top 10 countries based on revenue
+
+WITH customer_count AS 
+(SELECT d.country AS country,
+       	COUNT(a.customer_id) AS customer_count
+FROM customer a
+JOIN address b ON a.address_id = b.address_id
+JOIN city c ON c.city_id = b.city_id
+JOIN country d ON c.country_id = d.country_id
+GROUP BY d.country)
+SELECT  co.country AS country,
+        cc.customer_count AS customer_count,
+		    SUM(p.amount) AS revenue
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+JOIN customer c ON r.customer_id = c.customer_id
+JOIN address a ON c.address_id = a.address_id
+JOIN city ci ON a.city_id = ci.city_id
+JOIN country co ON ci.country_id = co.country_id
+JOIN customer_count cc ON cc.country = co.country
+GROUP BY co.country, customer_count
+ORDER BY revenue DESC
+LIMIT 10;
