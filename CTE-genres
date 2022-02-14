@@ -1,0 +1,27 @@
+Here is a SQL query with a common table expression:
+
+-- Most successful genres
+
+WITH customer_country AS 
+(SELECT customer.customer_id AS customer_id,
+        country.country AS country
+FROM customer
+JOIN address ON customer.address_id = address.address_id
+JOIN city ON address.city_id = city.city_id
+JOIN country ON city.country_id = country.country_id)
+SELECT customer_country.country AS country,
+       SUM(rental_revenue_category.payment) AS revenue,
+	     rental_revenue_category.genre AS genre
+FROM 
+(SELECT r.customer_id AS customer_id,
+	      p.amount AS payment,
+	      c.name AS genre
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film_category fc ON i.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+GROUP BY r.customer_id, payment, c.name) AS rental_revenue_category
+JOIN customer_country ON rental_revenue_category.customer_id = customer_country.customer_id
+GROUP BY country, genre
+ORDER BY genre DESC;
