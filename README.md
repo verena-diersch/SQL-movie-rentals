@@ -4,7 +4,7 @@ SQL analysis of a worldwide video rental platform.
 This is a student project I did in my data analytics bootcamp. Using pgadmin 4 I wrote SQL queries in which I asked questions like:
 
 - Which movies contributed the most/least to revenue gain?
-- Which countries are Rockbuster (the movie rental firm) based in?
+- Which countries are customers based in?
 - Where are customers with a high lifetime value based?
 - Do sales figures vary between geographic regions?
 
