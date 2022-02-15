@@ -1,5 +1,5 @@
 # SQL-movie-rentals
-SQL analysis of a worldwide video rental platform
+SQL analysis of a worldwide video rental platform.
 
 This is a student project I did in my data analytics bootcamp. Using pgadmin 4 I wrote SQL queries in which I asked questions like:
 
