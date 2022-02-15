@@ -12,4 +12,4 @@ The project brief can be found in elsewhere in this repository.
 
 The data can be accessed through a link in the project brief.
 
-My Tableau storyboard for this project can be found under this link: [https://public.tableau.com/app/profile/verena.diersch/viz/RockbusterDataAnalysis\_16348000092110/RockbusterDataAnalysis](https://public.tableau.com/app/profile/verena.diersch/viz/RockbusterDataAnalysis_16348000092110/RockbusterDataAnalysis)
+My Tableau storyboard for this project can be accessed via this link: [https://public.tableau.com/app/profile/verena.diersch/viz/RockbusterDataAnalysis\_16348000092110/RockbusterDataAnalysis](https://public.tableau.com/app/profile/verena.diersch/viz/RockbusterDataAnalysis_16348000092110/RockbusterDataAnalysis)
