@@ -2,24 +2,28 @@ Here is a SQL query with a common table expression
 
 -- Top 10 countries based on revenue
 
-WITH customer_count AS 
-(SELECT d.country AS country,
-       	COUNT(a.customer_id) AS customer_count
-FROM customer a
-JOIN address b ON a.address_id = b.address_id
-JOIN city c ON c.city_id = b.city_id
-JOIN country d ON c.country_id = d.country_id
-GROUP BY d.country)
-SELECT  co.country AS country,
-        cc.customer_count AS customer_count,
-		    SUM(p.amount) AS revenue
-FROM payment p
-JOIN rental r ON p.rental_id = r.rental_id
-JOIN customer c ON r.customer_id = c.customer_id
-JOIN address a ON c.address_id = a.address_id
-JOIN city ci ON a.city_id = ci.city_id
-JOIN country co ON ci.country_id = co.country_id
-JOIN customer_count cc ON cc.country = co.country
-GROUP BY co.country, customer_count
-ORDER BY revenue DESC
-LIMIT 10;
+with customer_count as (
+
+select d.country as country,
+       	count(a.customer_id) as customer_count
+from customer a
+inner join address b on a.address_id = b.address_id
+inner join city c on c.city_id = b.city_id
+inner join country d on c.country_id = d.country_id
+group by d.country
+
+)
+
+select  co.country as country,
+        cc.customer_count as customer_count,
+		    sum(p.amount) as revenue
+from payment p
+inner join rental r on p.rental_id = r.rental_id
+inner join customer c on r.customer_id = c.customer_id
+inner join address a on c.address_id = a.address_id
+inner join city ci ON a.city_id = ci.city_id
+inner join country co ON ci.country_id = co.country_id
+inner join customer_count cc ON cc.country = co.country
+group by co.country, customer_count
+order by revenue desc
+limit 10;
