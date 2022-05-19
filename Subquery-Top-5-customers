@@ -2,19 +2,20 @@ Here is a SQL query with a subquery:
 
 -- Top 5 customers
 
-SELECT A.customer_ID,
+select A.customer_ID,
        B.first_name,
        B.last_name,
        D.city,
        E.country,
-       SUM (amount) AS total_amount_paid_by_customer
-FROM payment A
-INNER JOIN customer B ON A.customer_id = B.customer_id
-INNER JOIN address C ON B.address_id = C.address_id
-INNER JOIN city D ON C.city_id = D.city_id
-INNER JOIN country E ON D.country_id = E.country_id
-WHERE E.country IN
-(
+       sum (amount) as total_amount_paid_by_customer
+from payment A
+inner join customer B on A.customer_id = B.customer_id
+inner join address C on B.address_id = C.address_id
+inner join city D on C.city_id = D.city_id
+inner join country E on D.country_id = E.country_id
+where 
+       E.country in (
+
 'India',
 'China',
 'United States',
@@ -25,9 +26,11 @@ WHERE E.country IN
 'Philippines',
 'Turkey',
 'Indonesia'
+
 )
-AND D.city in
-(
+
+and D.city in (
+
 'Aurora',
 'Atlixco',
 'Xintai',
@@ -38,12 +41,13 @@ AND D.city in
 'Sivas',
 'Celaya',
 'So Leopoldo'
+
 )
-GROUP BY
+group by
 A.customer_ID,
 B.first_name,
 B.last_name,
 D.city,
 E.country
-ORDER BY total_amount_paid_by_customer DESC
-LIMIT 5;
+order by total_amount_paid_by_customer desc
+limit 5;
