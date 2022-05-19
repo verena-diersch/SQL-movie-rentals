@@ -2,26 +2,29 @@ Here is a SQL query with a common table expression:
 
 -- Most successful genres
 
-WITH customer_country AS 
-(SELECT customer.customer_id AS customer_id,
-        country.country AS country
-FROM customer
-JOIN address ON customer.address_id = address.address_id
-JOIN city ON address.city_id = city.city_id
-JOIN country ON city.country_id = country.country_id)
-SELECT customer_country.country AS country,
-       SUM(rental_revenue_category.payment) AS revenue,
-	     rental_revenue_category.genre AS genre
-FROM 
-(SELECT r.customer_id AS customer_id,
-	      p.amount AS payment,
-	      c.name AS genre
-FROM payment p
-JOIN rental r ON p.rental_id = r.rental_id
-JOIN inventory i ON r.inventory_id = i.inventory_id
-JOIN film_category fc ON i.film_id = fc.film_id
-JOIN category c ON fc.category_id = c.category_id
-GROUP BY r.customer_id, payment, c.name) AS rental_revenue_category
-JOIN customer_country ON rental_revenue_category.customer_id = customer_country.customer_id
-GROUP BY country, genre
-ORDER BY genre DESC;
+with customer_country as (
+
+select customer.customer_id as customer_id,
+       country.country as country
+from customer
+inner join address on customer.address_id = address.address_id
+inner join city on address.city_id = city.city_id
+inner join country on city.country_id = country.country_id)
+
+select customer_country.country as country,
+       sum(rental_revenue_category.payment) as revenue,
+	rental_revenue_category.genre as genre
+from (
+
+select r.customer_id as customer_id,
+	p.amount as payment,
+	c.name as genre
+from payment p
+inner join rental r on p.rental_id = r.rental_id
+inner join inventory i on r.inventory_id = i.inventory_id
+inner join film_category fc on i.film_id = fc.film_id
+inner join category c on fc.category_id = c.category_id
+group by r.customer_id, payment, c.name) as rental_revenue_category
+inner join customer_country on rental_revenue_category.customer_id = customer_country.customer_id
+group by country, genre
+order by genre desc;
