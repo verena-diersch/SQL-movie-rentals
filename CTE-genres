@@ -1,6 +1,6 @@
 Here is a SQL query with a common table expression:
 
--- Most successful genres
+-- Most successful genres per country
 
 with customer_country as (
 
@@ -16,15 +16,15 @@ select customer_country.country as country,
 	rental_revenue_category.genre as genre
 from (
 
-select r.customer_id as customer_id,
-	p.amount as payment,
-	c.name as genre
-from payment p
-inner join rental r on p.rental_id = r.rental_id
-inner join inventory i on r.inventory_id = i.inventory_id
-inner join film_category fc on i.film_id = fc.film_id
-inner join category c on fc.category_id = c.category_id
-group by r.customer_id, payment, c.name) as rental_revenue_category
+select rental.customer_id as customer_id,
+	payment.amount as payment,
+	category.name as genre
+from payment 
+inner join rental on payment.rental_id = rental.rental_id
+inner join inventory on rental.inventory_id = inventory.inventory_id
+inner join film_category on inventory.film_id = film_category.film_id
+inner join category on film_category.category_id = category.category_id
+group by rental.customer_id, payment, category.name) as rental_revenue_category
 inner join customer_country on rental_revenue_category.customer_id = customer_country.customer_id
 group by country, genre
 order by genre desc;
