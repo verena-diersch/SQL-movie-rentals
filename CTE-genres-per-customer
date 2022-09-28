@@ -1,0 +1,22 @@
+Here is a SQL query with a common table expression:
+
+-- Most succesful genre per customer
+
+with cte as (
+
+select 
+   customer.customer_id, 
+   category.name,
+   row_number() over (partition by customer.customer_id order by count (category.name) desc) rn
+from customer
+inner join rental on rental.customer_id = customer.customer_id
+inner join inventory on rental.inventory_id = inventory.inventory_id
+inner join film on inventory.film_id = film.film_id
+inner join film_category on film.film_id = film_category.film_id
+inner join category on film_category.category_id = category.category_id
+group by customer.customer_id, category.name)
+
+select
+    customer_id,
+    name
+from cte where rn = 1 
